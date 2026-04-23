@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 180 8% 97%;
+    --foreground: 220 20% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 12%;
+
+    --primary: 200 80% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 94%;
+    --secondary-foreground: 220 20% 25%;
+
+    --muted: 220 14% 95%;
+    --muted-foreground: 215 12% 45%;
+
+    --accent: 200 60% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 14% 88%;
+    --input: 220 14% 88%;
+    --ring: 200 80% 45%;
+
+    --radius: 0.5rem;
+
+    --surface: 220 14% 96%;
+    --surface-raised: 0 0% 100%;
+    --glow-primary: 200 80% 45%;
+
+    --code-bg: 220 16% 14%;
+    --code-foreground: 150 40% 65%;
+    --code-accent: 150 40% 50%;
+    --code-inline-bg: 150 40% 95%;
+    --code-inline-border: 150 30% 70%;
+    --code-inline-text: 150 40% 30%;
+
+    --sidebar-background: 0 0% 99%;
+    --sidebar-foreground: 215 12% 40%;
+    --sidebar-primary: 200 80% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 94%;
+    --sidebar-accent-foreground: 220 20% 20%;
+    --sidebar-border: 220 14% 88%;
+    --sidebar-ring: 200 80% 45%;
+  }
+
+  .dark {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 90%;
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 90%;
+    --popover: 220 18% 10%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 200 80% 55%;
+    --primary-foreground: 220 20% 7%;
+    --secondary: 220 16% 14%;
+    --secondary-foreground: 210 20% 80%;
+    --muted: 220 14% 12%;
+    --muted-foreground: 215 12% 50%;
+    --accent: 200 60% 45%;
+    --accent-foreground: 210 20% 95%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 14% 16%;
+    --input: 220 14% 16%;
+    --ring: 200 80% 55%;
+    --surface: 220 16% 9%;
+    --surface-raised: 220 16% 12%;
+    --glow-primary: 200 80% 55%;
+
+    --code-bg: 220 16% 14%;
+    --code-foreground: 150 40% 65%;
+    --code-accent: 150 40% 55%;
+    --code-inline-bg: 150 30% 15%;
+    --code-inline-border: 150 30% 30%;
+    --code-inline-text: 150 40% 65%;
+
+    --sidebar-background: 220 18% 8%;
+    --sidebar-foreground: 210 15% 70%;
+    --sidebar-primary: 200 80% 55%;
+    --sidebar-primary-foreground: 220 20% 7%;
+    --sidebar-accent: 220 14% 14%;
+    --sidebar-accent-foreground: 210 20% 85%;
+    --sidebar-border: 220 14% 16%;
+    --sidebar-ring: 200 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* AI Chat panel font overrides */
+.ai-chat-panel .font-mono {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace !important;
+}
+
+/* Minimal code scrollbar - hidden by default, visible on hover */
+.ai-chat-panel pre {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.ai-chat-panel pre:hover {
+  scrollbar-color: hsl(var(--code-foreground) / 0.2) transparent;
+}
+.ai-chat-panel pre::-webkit-scrollbar {
+  height: 3px;
+}
+.ai-chat-panel pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ai-chat-panel pre::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+}
+.ai-chat-panel pre:hover::-webkit-scrollbar-thumb {
+  background: hsl(var(--code-foreground) / 0.2);
+}
