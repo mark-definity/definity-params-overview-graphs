@@ -122,7 +122,8 @@ const PIT_LIST = [
 
 const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeVersion, setActiveVersion] = useState<1 | 2 | 3 | 4>(1);
+  const [activeVersion, setActiveVersion] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const showParamChanges = true;
   const [pitOpen, setPitOpen] = useState(false);
   const [pitSearch, setPitSearch] = useState("");
   const [selectedPit, setSelectedPit] = useState(PIT_LIST[0]);
@@ -221,7 +222,7 @@ const Index = () => {
 
           {/* Version switcher */}
           <div className="inline-flex items-center bg-zinc-200 rounded-lg p-0.5 gap-0.5 shrink-0">
-            {([1, 2, 3, 4] as const).map((v) => (
+            {([1, 2, 3, 4, 5] as const).map((v) => (
               <button
                 key={v}
                 onClick={() => setActiveVersion(v)}
@@ -235,6 +236,7 @@ const Index = () => {
               </button>
             ))}
           </div>
+
 
           <div className="h-5 w-px bg-border" />
 
@@ -304,7 +306,7 @@ const Index = () => {
 
         {/* Main content — always Pipelines / Params */}
         <div className="flex-1 flex overflow-hidden">
-          <OverviewPage version={activeVersion} />
+          <OverviewPage version={activeVersion} showParamChanges={showParamChanges} />
         </div>
 
         <RightToolbar />
