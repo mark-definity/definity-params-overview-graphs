@@ -161,7 +161,7 @@ function ChangesBadge({ count, onClick }: { count: number; onClick: () => void }
   );
 }
 
-export function ParamsTable() {
+export function ParamsTable({ onBack }: { onBack?: () => void } = {}) {
   const [showHidden, setShowHidden] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedParam, setSelectedParam] = useState<string | null>(null);
@@ -273,6 +273,17 @@ export function ParamsTable() {
       <div className="px-6 pt-5 pb-0 border-b border-border bg-background">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-3">
+            {onBack && (
+              <button
+                onClick={onBack}
+                className="mt-0.5 p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors shrink-0"
+                title="Back"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+                </svg>
+              </button>
+            )}
             <div className="w-8 h-8 rounded border border-border bg-muted/30 flex items-center justify-center shrink-0">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                 <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" fill="none" />
@@ -315,6 +326,31 @@ export function ParamsTable() {
           ))}
         </div>
 
+        {/* Normal | Compare sub-tabs */}
+        <div className="flex items-center gap-0 border-t border-border">
+          {[
+            { label: "Normal", isActive: !comparisonMode, onClick: () => { setComparisonMode(false); setComparePit(null); } },
+            { label: "Compare", isActive: comparisonMode, onClick: () => setComparisonMode(true) },
+          ].map(({ label, isActive, onClick }) => (
+            <button
+              key={label}
+              onClick={onClick}
+              className={`px-4 py-2 text-[12px] font-medium flex items-center gap-1.5 transition-colors border-b-2 ${
+                isActive ? "text-primary border-primary" : "text-muted-foreground hover:text-foreground border-transparent"
+              }`}
+            >
+              {label === "Compare" && (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" className="shrink-0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16.2801 12.2193L21.2201 17.1593C21.325 17.2642 21.4587 17.3355 21.6042 17.3644C21.7497 17.3932 21.9004 17.3783 22.0374 17.3214C22.1744 17.2646 22.2915 17.1684 22.3739 17.045C22.4562 16.9217 22.5001 16.7767 22.5001 16.6283V6.75034C22.5001 6.60201 22.4562 6.457 22.3739 6.33363C22.2915 6.21026 22.1744 6.11408 22.0374 6.05724C21.9004 6.00041 21.7497 5.98547 21.6042 6.01433C21.4587 6.04318 21.325 6.11452 21.2201 6.21934L16.2801 11.1593C16.2104 11.2289 16.1551 11.3115 16.1174 11.4025C16.0797 11.4934 16.0603 11.5909 16.0603 11.6893C16.0603 11.7878 16.0797 11.8853 16.1174 11.9762C16.1551 12.0672 16.2104 12.1498 16.2801 12.2193Z" />
+                  <path d="M7.72 12.2193L2.78 17.1593C2.67505 17.2642 2.54138 17.3355 2.39589 17.3644C2.2504 17.3932 2.09962 17.3783 1.96261 17.3214C1.82561 17.2646 1.70854 17.1684 1.62619 17.045C1.54385 16.9217 1.49993 16.7767 1.5 16.6283V6.75034C1.49993 6.60201 1.54385 6.457 1.62619 6.33363C1.70854 6.21026 1.82561 6.11408 1.96261 6.05724C2.09962 6.00041 2.2504 5.98547 2.39589 6.01433C2.54138 6.04318 2.67505 6.11452 2.78 6.21934L7.72 11.1593C7.78966 11.2289 7.84493 11.3115 7.88264 11.4025C7.92035 11.4934 7.93975 11.5909 7.93975 11.6893C7.93975 11.7878 7.92035 11.8853 7.88264 11.9762C7.84493 12.0672 7.78966 12.1498 7.72 12.2193Z" />
+                  <path d="M12 18.5V5" />
+                </svg>
+              )}
+              {label}
+            </button>
+          ))}
+        </div>
+
       </div>
 
       {/* Main content area: table + optional sidebar */}
@@ -324,33 +360,6 @@ export function ParamsTable() {
           <div className="px-6 py-4 w-full min-w-0">
             {/* Controls row */}
             <div className="flex items-center gap-3 mb-4">
-              {/* Normal | Compare segmented control */}
-              <div className="inline-flex items-center bg-zinc-200 rounded-lg p-0.5 gap-0.5 shrink-0">
-                <button
-                  onClick={() => { setComparisonMode(false); setComparePit(null); }}
-                  className={`px-3 py-1 text-[11px] rounded-md transition-all ${
-                    !comparisonMode ? "bg-white shadow-sm text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Single PIT
-                </button>
-                <button
-                  onClick={() => setComparisonMode(true)}
-                  className={`px-3 py-1 text-[11px] rounded-md transition-all flex items-center gap-1.5 ${
-                    comparisonMode
-                      ? `bg-white shadow-sm text-foreground font-medium ${justSwitched ? "ring-2 ring-violet-400 ring-offset-1 scale-110" : ""}`
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="shrink-0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16.2801 12.2193L21.2201 17.1593C21.325 17.2642 21.4587 17.3355 21.6042 17.3644C21.7497 17.3932 21.9004 17.3783 22.0374 17.3214C22.1744 17.2646 22.2915 17.1684 22.3739 17.045C22.4562 16.9217 22.5001 16.7767 22.5001 16.6283V6.75034C22.5001 6.60201 22.4562 6.457 22.3739 6.33363C22.2915 6.21026 22.1744 6.11408 22.0374 6.05724C21.9004 6.00041 21.7497 5.98547 21.6042 6.01433C21.4587 6.04318 21.325 6.11452 21.2201 6.21934L16.2801 11.1593C16.2104 11.2289 16.1551 11.3115 16.1174 11.4025C16.0797 11.4934 16.0603 11.5909 16.0603 11.6893C16.0603 11.7878 16.0797 11.8853 16.1174 11.9762C16.1551 12.0672 16.2104 12.1498 16.2801 12.2193Z" />
-                    <path d="M7.72 12.2193L2.78 17.1593C2.67505 17.2642 2.54138 17.3355 2.39589 17.3644C2.2504 17.3932 2.09962 17.3783 1.96261 17.3214C1.82561 17.2646 1.70854 17.1684 1.62619 17.045C1.54385 16.9217 1.49993 16.7767 1.5 16.6283V6.75034C1.49993 6.60201 1.54385 6.457 1.62619 6.33363C1.70854 6.21026 1.82561 6.11408 1.96261 6.05724C2.09962 6.00041 2.2504 5.98547 2.39589 6.01433C2.54138 6.04318 2.67505 6.11452 2.78 6.21934L7.72 11.1593C7.78966 11.2289 7.84493 11.3115 7.88264 11.4025C7.92035 11.4934 7.93975 11.5909 7.93975 11.6893C7.93975 11.7878 7.92035 11.8853 7.88264 11.9762C7.84493 12.0672 7.78966 12.1498 7.72 12.2193Z" />
-                    <path d="M12 18.5V5" />
-                  </svg>
-                  Compare PITs
-                </button>
-              </div>
-
               {/* Search */}
               <div className="relative flex-none w-52">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
@@ -378,9 +387,6 @@ export function ParamsTable() {
                   <span className="text-[12px] text-foreground">Changed only</span>
                 </div>
               )}
-
-              {/* Divider between toggles */}
-              <div className="w-px h-5 bg-border" />
 
               {/* Hidden params toggle */}
               <div className="flex items-center gap-2">
